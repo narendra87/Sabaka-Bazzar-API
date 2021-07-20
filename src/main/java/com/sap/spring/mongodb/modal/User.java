@@ -19,10 +19,8 @@ public class User {
   @Email @Id private String email;
 
   @Size(min = 6)
-  @JsonIgnore
   private String password;
   @Size(min = 6)
-  @JsonIgnore
   private String confirmPassword;
 
   public User() {}
