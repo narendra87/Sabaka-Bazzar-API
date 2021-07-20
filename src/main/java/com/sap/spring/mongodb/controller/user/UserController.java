@@ -50,7 +50,7 @@ public class UserController {
         return temp;
       }
     }
-    throw new RecordNotFoundException("Please provide user details");
+    throw new RecordNotFoundException("Invalid userid or password");
   }
 
   @PostMapping("/users/register")
