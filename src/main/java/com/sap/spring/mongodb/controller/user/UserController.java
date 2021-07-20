@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -23,48 +22,56 @@ public class UserController {
     return userRepository.findAll();
   }
 
-  @GetMapping("/users/{id}")
-  public Optional<User> getUser(@PathVariable Long id) {
-    Optional<User> user = userRepository.findById(id);
-    if (!user.isEmpty()) {
-      return user;
-    } else {
-      throw new RecordNotFoundException("No data found for given ID");
+  @GetMapping("/user")
+  public User getUser(@RequestParam(value = "email") String email) {
+    Iterator iterator = userRepository.findAll().iterator();
+    while (iterator.hasNext()) {
+      User user = (User) iterator.next();
+      if (user.getEmail().equals(email)) {
+        return user;
+      }
     }
+    throw new RecordNotFoundException("This user is not exits");
   }
 
   @PostMapping("/users/login")
-  public User loginUser(@RequestBody User user) {
-    if (user != null) {
-      Iterator iterator = userRepository.findAll().iterator();
-      while (iterator.hasNext()) {
-        User storedUser = (User) iterator.next();
-        if (user.getEmail().equals(user.getEmail())) {
-          return storedUser;
-        }
+  public User loginUser(
+      @RequestParam(value = "email") String email,
+      @RequestParam(value = "password") String password) {
+
+    Iterator iterator = userRepository.findAll().iterator();
+    while (iterator.hasNext()) {
+      User user = (User) iterator.next();
+      if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+       User temp = new User();
+        temp.setFirstname(user.getFirstname());
+        temp.setLastname(user.getLastname());
+        temp.setEmail(user.getEmail());
+        return temp;
       }
-      return user;
-    } else {
-      throw new RecordNotFoundException("Please provide user details");
     }
+    throw new RecordNotFoundException("Please provide user details");
   }
 
   @PostMapping("/users/register")
   public ResponseEntity<Object> registerUser(@RequestBody @Validated User user) {
     userRepository.save(user);
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getEmail()).toUri();
-    return  ResponseEntity.created(location).build();
-
+    URI location =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(user.getEmail())
+            .toUri();
+    return ResponseEntity.created(location).build();
   }
 
-  @DeleteMapping("/users/{id}")
-  public User deleteUser(@PathVariable String id) {
+  @DeleteMapping("/users")
+  public void deleteUser(@RequestParam(value = "email") String email) {
     Iterator iterator = userRepository.findAll().iterator();
     while (iterator.hasNext()) {
       User user = (User) iterator.next();
-      if (user.getEmail().equals(id) ){
+      if (user.getEmail().equals(email)) {
         userRepository.delete(user);
-        return user;
+        return;
       }
     }
     throw new RecordNotFoundException("This user is not exits");
