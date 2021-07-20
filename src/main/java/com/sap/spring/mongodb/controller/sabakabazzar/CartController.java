@@ -28,7 +28,7 @@ public class CartController {
     }
   }
 
-  @PostMapping("/sabakabazzar/cart/items")
+  @PostMapping("/sabakabazzar/cart/addToCart")
   public void addToCart(@RequestBody CartItems cartItems) {
     cartRepository.save(cartItems);
   }
