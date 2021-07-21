@@ -1,9 +1,11 @@
 package com.sap.spring.mongodb.controller.user;
 
 import com.sap.spring.mongodb.cutomexception.RecordNotFoundException;
+import com.sap.spring.mongodb.modal.Response;
 import com.sap.spring.mongodb.modal.User;
 import com.sap.spring.mongodb.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +37,7 @@ public class UserController {
   }
 
   @PostMapping("/users/login")
-  public User loginUser(
+  public ResponseEntity loginUser(
       @RequestParam(value = "email") String email,
       @RequestParam(value = "password") String password) {
 
@@ -43,11 +45,7 @@ public class UserController {
     while (iterator.hasNext()) {
       User user = (User) iterator.next();
       if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-       User temp = new User();
-        temp.setFirstname(user.getFirstname());
-        temp.setLastname(user.getLastname());
-        temp.setEmail(user.getEmail());
-        return temp;
+        return new ResponseEntity(new Response("success","user login successfully"),HttpStatus.OK);
       }
     }
     throw new RecordNotFoundException("Invalid userid or password");

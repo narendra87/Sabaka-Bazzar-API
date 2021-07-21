@@ -1,26 +1,30 @@
 package com.sap.spring.mongodb.modal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Component
 public class User {
 
-  @Size(min = 2)
+  @Size(min = 2, max = 20)
+  @NotEmpty
   private String firstname;
 
-  @Size(min = 2)
+  @Size(min = 2, max = 20)
   private String lastname;
 
-  @Email @Id private String email;
+  @Email @Id @NotEmpty private String email;
 
-  @Size(min = 6)
+  @Size(min = 6, max = 20)
+  @NotEmpty
   private String password;
-  @Size(min = 6)
+
+  @Size(min = 6, max = 20)
+  @NotEmpty
   private String confirmPassword;
 
   public User() {}
