@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Category {
-    private String id;
+    private String categoryId;
     private String name;
     private String key;
     private String description;
@@ -15,8 +15,8 @@ public class Category {
     public Category() {
     }
 
-    public Category(String id, String name, String key, String description, boolean enabled, Integer order, String imageUrl) {
-        this.id = id;
+    public Category(String categoryId, String name, String key, String description, boolean enabled, Integer order, String imageUrl) {
+        this.categoryId = categoryId;
         this.name = name;
         this.key = key;
         this.description = description;
@@ -25,12 +25,12 @@ public class Category {
         this.imageUrl = imageUrl;
     }
 
-    public String getId() {
-        return id;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public Category setId(String id) {
-        this.id = id;
+    public Category setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
         return this;
     }
 
@@ -91,7 +91,7 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "id='" + id + '\'' +
+                "id='" + categoryId + '\'' +
                 ", name='" + name + '\'' +
                 ", key='" + key + '\'' +
                 ", description='" + description + '\'' +

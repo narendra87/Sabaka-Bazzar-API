@@ -2,11 +2,8 @@ package com.sap.spring.mongodb.controller.sabakabazzar;
 
 import com.sap.spring.mongodb.cutomexception.RecordNotFoundException;
 import com.sap.spring.mongodb.modal.CartItems;
-import com.sap.spring.mongodb.modal.Response;
 import com.sap.spring.mongodb.repository.sabakabazzar.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +22,7 @@ public class CartController {
     Iterator iterator = cartRepository.findAll().iterator();
     while (iterator.hasNext()) {
       CartItems product = (CartItems) iterator.next();
-      if (product.getId().equals(id)) {
+      if (product.getProductId().equals(id)) {
         return product;
       }
     }
@@ -33,22 +30,48 @@ public class CartController {
   }
 
   @PostMapping("/sabakabazzar/cart/addToCart")
-  public ResponseEntity<Object> addToCart(@RequestBody CartItems cartItems) {
-    cartRepository.save(cartItems);
-    return new ResponseEntity(
-        new Response("success", "Product added to cart successfully"), HttpStatus.OK);
+  public List<CartItems> addToCart(@RequestBody CartItems cartItem) {
+    if (cartRepository.findAll().size() > 0) {
+      Iterator iterator = cartRepository.findAll().iterator();
+      while (iterator.hasNext()) {
+        CartItems product = (CartItems) iterator.next();
+        if (product.getProductId().equals(cartItem.getProductId())) {
+          cartRepository.delete(product);
+          product.setQty(product.getQty() + 1);
+          cartRepository.save(product);
+        } else {
+          cartRepository.save(cartItem);
+        }
+        return cartRepository.findAll();
+      }
+    } else {
+      cartRepository.save(cartItem);
+    }
+    return null;
   }
 
-  @DeleteMapping("/sabakabazzar/cart/item")
-  public void deleteProduct(@RequestParam(value = "id") String id) {
+  @DeleteMapping("/sabakabazzar/cart/deleteToCart")
+  public List<CartItems> deleteProduct(@RequestParam(value = "productId") String productId) {
     Iterator iterator = cartRepository.findAll().iterator();
     while (iterator.hasNext()) {
       CartItems product = (CartItems) iterator.next();
-      if (product.getId().equals(id)) {
-        cartRepository.delete(product);
-        return;
+      if (product.getProductId().equals(productId)) {
+        if (product.getQty() > 1) {
+          cartRepository.delete(product);
+          product.setQty(product.getQty() - 1);
+          cartRepository.save(product);
+          return cartRepository.findAll();
+        } else {
+          cartRepository.delete(product);
+          return cartRepository.findAll();
+        }
       }
     }
     throw new RecordNotFoundException("This user is not exits");
+  }
+
+  @DeleteMapping("/sabakabazzar/cart/clearCart")
+  public void clearCart() {
+    cartRepository.deleteAll();
   }
 }

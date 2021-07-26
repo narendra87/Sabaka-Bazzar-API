@@ -1,22 +1,32 @@
 package com.sap.spring.mongodb.modal;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 @Component
 public class ProductDetails {
-  private String id;
+  @NotEmpty
+  @UniqueElements
+  private String productId;
+  @NotEmpty
   private String name;
   private String description;
   private String imageURL;
+  @NotEmpty
   private long price;
   private long stock;
+  @NotEmpty
   private String category;
+  @NotEmpty
   private String sku;
 
   public ProductDetails() {}
 
   public ProductDetails(
-      String  id,
+      String  productId,
       String name,
       String description,
       String imageURL,
@@ -24,7 +34,7 @@ public class ProductDetails {
       long stock,
       String category,
       String sku) {
-    this.id = id;
+    this.productId = productId;
     this.name = name;
     this.description = description;
     this.imageURL = imageURL;
@@ -34,12 +44,12 @@ public class ProductDetails {
     this.sku = sku;
   }
 
-  public String  getId() {
-    return id;
+  public String getProductId() {
+    return productId;
   }
 
-  public ProductDetails setId(String id) {
-    this.id = id;
+  public ProductDetails setProductId(String productId) {
+    this.productId = productId;
     return this;
   }
 
@@ -109,8 +119,8 @@ public class ProductDetails {
   @Override
   public String toString() {
     return "ProductDetails{"
-        + "id="
-        + id
+        + "productId="
+        + productId
         + ", name='"
         + name
         + '\''

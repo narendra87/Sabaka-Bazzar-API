@@ -17,7 +17,7 @@ public class ProductController {
   @Autowired ProductRepository productRepository;
 
   @GetMapping("/sabakabazzar/products")
-  public List<ProductDetails> getProducts() {
+  public List<ProductDetails> getProducts(@RequestParam(value = "categoryId") String categoryId) {
     return productRepository.findAll();
   }
 
@@ -26,7 +26,7 @@ public class ProductController {
     Iterator iterator = productRepository.findAll().iterator();
     while (iterator.hasNext()) {
       ProductDetails product = (ProductDetails) iterator.next();
-      if (product.getId().equals(id)) {
+      if (product.getProductId().equals(id)) {
         return product;
       }
     }
@@ -36,16 +36,16 @@ public class ProductController {
   @PostMapping("/sabakabazzar/products")
   public ResponseEntity<Object> addProduct(@RequestBody ProductDetails productDetails) {
     productRepository.save(productDetails);
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productDetails.getId()).toUri();
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productDetails.getProductId()).toUri();
     return  ResponseEntity.created(location).build();
   }
 
   @DeleteMapping("/sabakabazzar/product")
-  public void deleteProduct(@RequestParam(value = "id") String id) {
+  public void deleteProduct(@RequestParam(value = "productId") String productId) {
     Iterator iterator = productRepository.findAll().iterator();
     while (iterator.hasNext()) {
       ProductDetails product = (ProductDetails) iterator.next();
-      if (product.getId().equals(id)) {
+      if (product.getProductId().equals(productId)) {
         productRepository.delete(product);
         return;
       }

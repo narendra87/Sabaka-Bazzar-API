@@ -1,8 +1,10 @@
 package com.sap.spring.mongodb.controller.user;
 
 import com.sap.spring.mongodb.cutomexception.RecordNotFoundException;
+import com.sap.spring.mongodb.modal.LoginResponse;
 import com.sap.spring.mongodb.modal.Response;
 import com.sap.spring.mongodb.modal.User;
+import com.sap.spring.mongodb.repository.sabakabazzar.CartRepository;
 import com.sap.spring.mongodb.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,8 @@ import java.util.List;
 @RestController
 public class UserController {
   @Autowired UserRepository userRepository;
-
+  @Autowired
+  CartRepository cartRepository;
   @GetMapping("/users")
   public List<User> getUsers() {
     return userRepository.findAll();
@@ -45,7 +48,7 @@ public class UserController {
     while (iterator.hasNext()) {
       User user = (User) iterator.next();
       if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-        return new ResponseEntity(new Response("success","user login successfully"),HttpStatus.OK);
+        return new ResponseEntity(new LoginResponse(cartRepository.findAll().size(),"success","user login successfully"),HttpStatus.OK);
       }
     }
     throw new RecordNotFoundException("Invalid userid or password");

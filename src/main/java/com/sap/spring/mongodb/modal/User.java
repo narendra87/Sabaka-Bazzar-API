@@ -23,9 +23,6 @@ public class User {
   @NotEmpty
   private String password;
 
-  @Size(min = 6, max = 20)
-  @NotEmpty
-  private String confirmPassword;
 
   public User() {}
 
@@ -35,7 +32,6 @@ public class User {
     this.lastname = lastname;
     this.email = email;
     this.password = password;
-    this.confirmPassword = confirmPassword;
   }
 
   public String getFirstname() {
@@ -74,14 +70,6 @@ public class User {
     return this;
   }
 
-  public String getConfirmPassword() {
-    return confirmPassword;
-  }
-
-  public User setConfirmPassword(String confirmPassword) {
-    this.confirmPassword = confirmPassword;
-    return this;
-  }
 
   @Override
   public String toString() {
@@ -97,9 +85,6 @@ public class User {
         + '\''
         + ", password='"
         + password
-        + '\''
-        + ", confirmPassword='"
-        + confirmPassword
         + '\''
         + '}';
   }
