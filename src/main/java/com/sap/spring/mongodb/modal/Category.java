@@ -88,16 +88,4 @@ public class Category {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id='" + categoryId + '\'' +
-                ", name='" + name + '\'' +
-                ", key='" + key + '\'' +
-                ", description='" + description + '\'' +
-                ", enabled=" + enabled +
-                ", order=" + order +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
-    }
 }
