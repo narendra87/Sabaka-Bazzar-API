@@ -1,11 +1,14 @@
 package com.sap.spring.mongodb.modal;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 
-@Component
+@Document
 public class ProductDetails {
+  @Id
+  private String id;
   @NotEmpty private String productId;
   @NotEmpty private String name;
   private String description;

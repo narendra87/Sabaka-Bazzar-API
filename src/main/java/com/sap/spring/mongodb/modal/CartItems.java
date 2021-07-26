@@ -1,11 +1,14 @@
 package com.sap.spring.mongodb.modal;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Min;
 
-@Component
+@Document
 public class CartItems extends ProductDetails {
+
   @Min(1)
   private int qty = 1;
 

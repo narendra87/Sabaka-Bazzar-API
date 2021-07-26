@@ -1,9 +1,11 @@
 package com.sap.spring.mongodb.modal;
 
-import org.springframework.stereotype.Component;
-
-@Component
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document
 public class Banner {
+  @Id
+  private String _id;
   String bannerImageUrl;
   String bannerImageAlt;
   String isActive;

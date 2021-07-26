@@ -18,7 +18,7 @@ public class ProductController {
 
   @GetMapping("/sabakabazzar/products")
   public List<ProductDetails> getProducts(@RequestParam(value = "categoryId") String categoryId) {
-    return productRepository.findAll();
+    return productRepository.findByCategory(categoryId);
   }
 
   @GetMapping("/sabakabazzar/product")

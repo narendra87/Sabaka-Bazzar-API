@@ -56,12 +56,13 @@ public class UserController {
   @PostMapping("/users/register")
   public ResponseEntity<Object> registerUser(@RequestBody @Validated User user) {
     userRepository.save(user);
-    URI location =
-        ServletUriComponentsBuilder.fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(user.getEmail())
-            .toUri();
-    return ResponseEntity.created(location).build();
+    return new ResponseEntity(new LoginResponse(0,"success","user registered successfully"),HttpStatus.OK);
+//    URI location =
+//        ServletUriComponentsBuilder.fromCurrentRequest()
+//            .path("/{id}")
+//            .buildAndExpand(user.getEmail())
+//            .toUri();
+//    return ResponseEntity.created(location).build();
   }
 
   @DeleteMapping("/users")
