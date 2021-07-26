@@ -11,7 +11,6 @@ public class Category {
     private boolean enabled;
     private Integer order;
     private String imageUrl;
-
     public Category() {
     }
 

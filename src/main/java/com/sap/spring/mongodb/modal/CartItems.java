@@ -1,19 +1,31 @@
 package com.sap.spring.mongodb.modal;
 
-public class CartItems extends ProductDetails{
-    private int qty;
+import javax.validation.constraints.Min;
 
-    public CartItems(String productId, String name, String description, String imageURL, long price, long stock, String category, String sku, int qty) {
-        super(productId, name, description, imageURL, price, stock, category, sku);
-        this.qty = qty;
-    }
+public class CartItems extends ProductDetails {
+  @Min(1)
+  private int qty = 1;
 
-    public int getQty() {
-        return qty;
-    }
+  public CartItems(
+      String productId,
+      String name,
+      String description,
+      String imageURL,
+      long price,
+      long stock,
+      String category,
+      String sku,
+      int qty) {
+    super(productId, name, description, imageURL, price, stock, category, sku);
+    this.qty = qty;
+  }
 
-    public CartItems setQty(int qty) {
-        this.qty = qty;
-        return this;
-    }
+  public int getQty() {
+    return qty;
+  }
+
+  public CartItems setQty(int qty) {
+    this.qty = qty;
+    return this;
+  }
 }

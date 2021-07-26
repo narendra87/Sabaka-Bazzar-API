@@ -4,6 +4,7 @@ import com.sap.spring.mongodb.cutomexception.RecordNotFoundException;
 import com.sap.spring.mongodb.modal.CartItems;
 import com.sap.spring.mongodb.repository.sabakabazzar.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.Iterator;
 import java.util.List;
@@ -18,19 +19,19 @@ public class CartController {
   }
 
   @GetMapping("/sabakabazzar/cart/item")
-  public CartItems getCartItem(@RequestParam(value = "id") String id) {
+  public CartItems getCartItem(@RequestParam(value = "productId") String productId) {
     Iterator iterator = cartRepository.findAll().iterator();
     while (iterator.hasNext()) {
       CartItems product = (CartItems) iterator.next();
-      if (product.getProductId().equals(id)) {
+      if (product.getProductId().equals(productId)) {
         return product;
       }
     }
-    throw new RecordNotFoundException("This user is not exits");
+    throw new RecordNotFoundException("This product is not exits");
   }
 
   @PostMapping("/sabakabazzar/cart/addToCart")
-  public List<CartItems> addToCart(@RequestBody CartItems cartItem) {
+  public List<CartItems> addToCart(@RequestBody @Validated CartItems cartItem) {
     if (cartRepository.findAll().size() > 0) {
       Iterator iterator = cartRepository.findAll().iterator();
       while (iterator.hasNext()) {
@@ -39,19 +40,16 @@ public class CartController {
           cartRepository.delete(product);
           product.setQty(product.getQty() + 1);
           cartRepository.save(product);
-        } else {
-          cartRepository.save(cartItem);
+          return cartRepository.findAll();
         }
-        return cartRepository.findAll();
       }
-    } else {
-      cartRepository.save(cartItem);
     }
-    return null;
+    cartRepository.save(cartItem);
+    return cartRepository.findAll();
   }
 
   @DeleteMapping("/sabakabazzar/cart/deleteToCart")
-  public List<CartItems> deleteProduct(@RequestParam(value = "productId") String productId) {
+  public List<CartItems> deleteToCart(@RequestParam(value = "productId") String productId) {
     Iterator iterator = cartRepository.findAll().iterator();
     while (iterator.hasNext()) {
       CartItems product = (CartItems) iterator.next();
