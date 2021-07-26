@@ -2,7 +2,6 @@ package com.sap.spring.mongodb.controller.user;
 
 import com.sap.spring.mongodb.cutomexception.RecordNotFoundException;
 import com.sap.spring.mongodb.modal.LoginResponse;
-import com.sap.spring.mongodb.modal.Response;
 import com.sap.spring.mongodb.modal.User;
 import com.sap.spring.mongodb.repository.sabakabazzar.CartRepository;
 import com.sap.spring.mongodb.repository.user.UserRepository;

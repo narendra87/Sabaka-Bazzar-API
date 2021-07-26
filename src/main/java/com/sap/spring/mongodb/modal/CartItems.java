@@ -1,10 +1,15 @@
 package com.sap.spring.mongodb.modal;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.Min;
 
+@Component
 public class CartItems extends ProductDetails {
   @Min(1)
   private int qty = 1;
+
+  public CartItems() {}
 
   public CartItems(
       String productId,
