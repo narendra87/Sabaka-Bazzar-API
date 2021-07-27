@@ -65,7 +65,7 @@ public class CartController {
         }
       }
     }
-    throw new RecordNotFoundException("This user is not exits");
+    throw new RecordNotFoundException("This product is not exits");
   }
 
   @DeleteMapping("/sabakabazzar/cart/clearCart")

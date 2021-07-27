@@ -39,14 +39,12 @@ public class UserController {
   }
 
   @PostMapping("/users/login")
-  public ResponseEntity loginUser(
-      @RequestParam(value = "email") String email,
-      @RequestParam(value = "password") String password) {
+  public ResponseEntity loginUser(@RequestBody User userLogin) {
 
     Iterator iterator = userRepository.findAll().iterator();
     while (iterator.hasNext()) {
       User user = (User) iterator.next();
-      if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+      if (user.getEmail().equals(userLogin.getEmail()) && user.getPassword().equals(userLogin.getPassword())) {
         return new ResponseEntity(new LoginResponse(cartRepository.findAll().size(),"success","user login successfully"),HttpStatus.OK);
       }
     }
