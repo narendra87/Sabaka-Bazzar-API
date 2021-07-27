@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,7 +37,6 @@ public class UserController {
 
   @PostMapping("/users/login")
   public ResponseEntity loginUser(@RequestBody User userLogin) {
-
     Iterator iterator = userRepository.findAll().iterator();
     while (iterator.hasNext()) {
       User user = (User) iterator.next();
@@ -55,12 +51,6 @@ public class UserController {
   public ResponseEntity<Object> registerUser(@RequestBody @Validated User user) {
     userRepository.save(user);
     return new ResponseEntity(new LoginResponse(0,"success","user registered successfully"),HttpStatus.OK);
-//    URI location =
-//        ServletUriComponentsBuilder.fromCurrentRequest()
-//            .path("/{id}")
-//            .buildAndExpand(user.getEmail())
-//            .toUri();
-//    return ResponseEntity.created(location).build();
   }
 
   @DeleteMapping("/users")
